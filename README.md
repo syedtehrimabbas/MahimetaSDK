@@ -1,5 +1,7 @@
 # Mahimeta Ad SDK
 
+[![](https://jitpack.io/v/syedtehrimabbas/MahimetaSDK.svg)](https://jitpack.io/#syedtehrimabbas/MahimetaSDK)
+
 A lightweight Android SDK for displaying ads with dynamic configuration from your Mahimeta dashboard.
 
 ## Features
@@ -9,7 +11,12 @@ A lightweight Android SDK for displaying ads with dynamic configuration from you
 - Lifecycle-aware ad management
 - Easy integration with both XML and Jetpack Compose
 
+## Features
+
+- Dynamic ad unit ID configuration
 ## Installation
+
+### Step 1: Add JitPack Repository
 
 Add the JitPack repository to your project-level `settings.gradle`:
 
@@ -24,12 +31,35 @@ dependencyResolutionManagement {
 }
 ```
 
+### Step 2: Add Dependency
+
 Add the dependency to your app-level `build.gradle`:
 
 ```groovy
 dependencies {
-    implementation 'com.github.syedtehrimabbas:MahimetaSDK:v1.0.0'
+    implementation 'com.github.syedtehrimabbas:MahimetaSDK:1.0.0'
 }
+```
+
+### Step 3: Add Required Permissions
+
+Add these permissions to your `AndroidManifest.xml`:
+
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+```
+
+### Step 4: Add Your Publisher ID
+
+Add your Mahimeta publisher ID to your `AndroidManifest.xml`:
+
+```xml
+<application>
+    <meta-data
+        android:name="com.mahimeta.sdk.PUBLISHER_ID"
+        android:value="YOUR_PUBLISHER_ID" />
+</application>
 ```
 
 ## Prerequisites
