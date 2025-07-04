@@ -1,5 +1,5 @@
 plugins {
-    id("com.android.library") version "8.0.2"  // Explicit version
+    id("com.android.library") version "8.0.2"
     id("org.jetbrains.kotlin.android") version "1.9.22"
     id("maven-publish")
 }
@@ -17,17 +17,40 @@ android {
         consumerProguardFiles("consumer-rules.pro")
 
         // Version information
-        buildConfigField("String", "SDK_VERSION", "\"1.0.8\"")
+        buildConfigField("String", "SDK_VERSION", "\"1.0.9\"")
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = true
+            isMinifyEnabled = false  // Disable minification for now to debug
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
+        debug {
+            isMinifyEnabled = false
+        }
+    }
+    
+    // Configure source sets to include both Java and Kotlin sources
+    sourceSets {
+        getByName("main") {
+            java.srcDirs("src/main/java", "src/main/kotlin")
+            res.srcDirs("src/main/res")
+            manifest.srcFile("src/main/AndroidManifest.xml")
+        }
+    }
+    
+    // Enable Java 8 features
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    
+    // Configure Kotlin options
+    kotlinOptions {
+        jvmTarget = "1.9"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
