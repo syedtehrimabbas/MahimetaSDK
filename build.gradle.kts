@@ -1,6 +1,6 @@
 plugins {
     id("com.android.library") version "8.0.2"  // Explicit version
-    id("org.jetbrains.kotlin.android") version "1.8.21"
+    id("org.jetbrains.kotlin.android") version "1.9.22"
     id("maven-publish")
 }
 android {
@@ -17,7 +17,7 @@ android {
         consumerProguardFiles("consumer-rules.pro")
 
         // Version information
-        buildConfigField("String", "SDK_VERSION", "\"1.0.7\"")
+        buildConfigField("String", "SDK_VERSION", "\"1.0.8\"")
     }
 
     buildTypes {
@@ -39,12 +39,12 @@ android {
 }
 
 dependencies {
-    api("androidx.core:core-ktx:1.12.0")
-    api("androidx.appcompat:appcompat:1.6.1")
-    api("com.google.android.material:material:1.11.0")
+    api("androidx.core:core-ktx:1.16.0")
+    api("androidx.appcompat:appcompat:1.7.1")
+    api("com.google.android.material:material:1.12.0")
     api("com.google.android.gms:play-services-ads:22.6.0")
-    api("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
-    api("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    api("androidx.lifecycle:lifecycle-runtime-ktx:2.9.1")
+    api("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.1")
 
     // Retrofit and Coroutines
     api("com.squareup.retrofit2:retrofit:2.9.0")
@@ -54,8 +54,8 @@ dependencies {
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
     testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 }
 
 afterEvaluate {
@@ -64,7 +64,7 @@ afterEvaluate {
             register<MavenPublication>("release") {
                 groupId = "com.github.syedtehrimabbas"
                 artifactId = "MahimetaSDK"
-                version = "1.0.7"
+                version = "1.0.8"
                 
                 from(components["release"])
 

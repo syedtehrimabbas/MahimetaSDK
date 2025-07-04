@@ -1,3 +1,4 @@
+
 # Mahimeta Ad SDK
 
 [![](https://jitpack.io/v/syedtehrimabbas/MahimetaSDK.svg)](https://jitpack.io/#syedtehrimabbas/MahimetaSDK)
@@ -11,15 +12,13 @@ A lightweight Android SDK for displaying ads with dynamic configuration from you
 - Lifecycle-aware ad management
 - Easy integration with both XML and Jetpack Compose
 
-## Features
-
-- Dynamic ad unit ID configuration
 ## Installation
 
-### Step 1: Add JitPack Repository
+### Option 1: JitPack (Recommended)
 
-Add the JitPack repository to your project-level `settings.gradle`:
+#### Step 1: Add JitPack Repository
 
+**Groovy (settings.gradle):**
 ```groovy
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -31,6 +30,7 @@ dependencyResolutionManagement {
 }
 ```
 
+**Kotlin DSL (settings.gradle.kts):**
 ```kts
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -42,11 +42,7 @@ dependencyResolutionManagement {
 }
 ```
 
-
-
-### Step 2: Add Dependency
-
-Add the dependency to your app-level `build.gradle`:
+#### Step 2: Add Dependency
 
 ```groovy
 dependencies {
@@ -54,52 +50,60 @@ dependencies {
 }
 ```
 
+---
+
+### Option 2: Using `.aar` File
+
+#### Step 1: Download the `.aar` File
+
+Download `MahimetaSDK-1.0.7.aar` and place it in your app’s `libs` directory.
+
+#### Step 2: Add `.aar` to Your Project
+
+Update your `build.gradle`:
+
+```groovy
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    implementation(name: 'MahimetaSDK-1.0.7', ext: 'aar')
+}
+```
+
+---
+
 ### Step 3: Add Required Permissions
 
-Add these permissions to your `AndroidManifest.xml`:
+In your `AndroidManifest.xml`:
 
 ```xml
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
 ```
 
+---
+
 ### Step 4: Add Your Publisher ID
 
-Add your Mahimeta publisher ID to your `AndroidManifest.xml`:
+Add this inside the `<application>` tag:
 
 ```xml
-<application>
-    <meta-data
-        android:name="com.mahimeta.sdk.PUBLISHER_ID"
-        android:value="YOUR_PUBLISHER_ID" />
-</application>
+<meta-data
+    android:name="com.mahimeta.sdk.PUBLISHER_ID"
+    android:value="YOUR_PUBLISHER_ID" />
 ```
 
-## Prerequisites
-
-1. Add your Mahimeta publisher ID to your app's `AndroidManifest.xml`:
-
-```xml
-<manifest>
-    <application>
-        <meta-data
-            android:name="com.mahimeta.sdk.PUBLISHER_ID"
-            android:value="YOUR_PUBLISHER_ID" />
-    </application>
-</manifest>
-```
-
-2. Add internet permission to your `AndroidManifest.xml`:
-
-```xml
-<uses-permission android:name="android.permission.INTERNET" />
-```
+---
 
 ## Usage
 
 ### 1. Initialize the SDK
 
-Initialize the SDK in your `Application` class:
+In your custom `Application` class:
 
 ```kotlin
 class MyApp : Application() {
@@ -110,9 +114,9 @@ class MyApp : Application() {
 }
 ```
 
-### 2. Using in XML Layouts
+---
 
-Add the `MahimetaAdView` to your layout:
+### 2. XML Layout Usage
 
 ```xml
 <com.mahimeta.sdk.MahimetaAdView
@@ -122,7 +126,9 @@ Add the `MahimetaAdView` to your layout:
     app:adSize="BANNER" />
 ```
 
-### 3. Using in Jetpack Compose
+---
+
+### 3. Jetpack Compose Usage
 
 ```kotlin
 @Composable
@@ -138,37 +144,38 @@ fun AdBanner() {
 }
 ```
 
+---
+
 ### 4. Available Ad Sizes
 
-- `BANNER` - Standard 320x50 banner
-- `LARGE_BANNER` - Large 320x100 banner
-- `MEDIUM_RECTANGLE` - Medium 300x250 rectangle
-- `FULL_BANNER` - 468x60 banner
-- `LEADERBOARD` - 728x90 leaderboard
-- `ADAPTIVE_BANNER` - Adaptive banner (width of the screen)
-
-To set a custom size programmatically:
+- `BANNER` – 320x50
+- `LARGE_BANNER` – 320x100
+- `MEDIUM_RECTANGLE` – 300x250
+- `FULL_BANNER` – 468x60
+- `LEADERBOARD` – 728x90
+- `ADAPTIVE_BANNER` – screen width
 
 ```kotlin
 val adView = findViewById<MahimetaAdView>(R.id.adView)
-adView.setAdSize(MahimetaAdSize.ADAPTIVE_BANNER) // or any other size
+adView.setAdSize(MahimetaAdSize.ADAPTIVE_BANNER)
 ```
+
+---
 
 ## Advanced Usage
 
 ### Manual Ad Refresh
 
 ```kotlin
-adView.loadAd() // Manually load an ad
-adView.reloadAd(30000) // Reload ad after 30 seconds
+adView.loadAd()           // Load ad manually
+adView.reloadAd(30000)    // Reload after 30 seconds
 ```
 
-### Lifecycle Integration
+---
 
-The `MahimetaAdView` automatically handles lifecycle events, but you can also manage them manually:
+### Lifecycle Handling
 
 ```kotlin
-// In your Activity/Fragment
 override fun onResume() {
     super.onResume()
     adView.onResume()
@@ -185,9 +192,9 @@ override fun onDestroy() {
 }
 ```
 
-## Error Handling
+---
 
-The SDK handles most errors internally and logs them with the tag "MahimetaAdView". You can listen for ad events:
+### Error Handling
 
 ```kotlin
 adView.setAdListener(object : AdListener() {
@@ -196,16 +203,18 @@ adView.setAdListener(object : AdListener() {
     }
 
     override fun onAdFailedToLoad(error: LoadAdError) {
-        // Handle ad loading failure
+        // Handle failure
     }
-    
-    // Other callbacks available: onAdOpened(), onAdClicked(), onAdClosed(), onAdImpression()
+
+    // Optional: onAdOpened(), onAdClicked(), onAdClosed(), onAdImpression()
 })
 ```
 
-## ProGuard/R8
+---
 
-If you're using ProGuard or R8, add these rules to your `proguard-rules.pro`:
+## ProGuard / R8
+
+Add these rules if you’re using R8 or ProGuard:
 
 ```
 # Keep AdMob classes
@@ -216,6 +225,8 @@ If you're using ProGuard or R8, add these rules to your `proguard-rules.pro`:
 -keep class com.mahimeta.sdk.** { *; }
 -keepclassmembers class com.mahimeta.sdk.** { *; }
 ```
+
+---
 
 ## License
 
