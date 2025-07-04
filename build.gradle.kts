@@ -7,13 +7,17 @@ android {
     namespace = "com.mahimeta.sdk"
     compileSdk = 34
 
+    buildFeatures {
+        buildConfig = true  // ← Add this
+    }
+
     defaultConfig {
         minSdk = 24
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
 
         // Version information
-        buildConfigField("String", "SDK_VERSION", "\"1.0.4\"")
+        buildConfigField("String", "SDK_VERSION", "\"1.0.6\"")
     }
 
     buildTypes {
@@ -57,10 +61,10 @@ dependencies {
 afterEvaluate {
     publishing {
         publications {
-            create<MavenPublication>("release") {
+            register<MavenPublication>("release") {
                 groupId = "com.github.syedtehrimabbas"
                 artifactId = "MahimetaSDK"
-                version = "1.0.4"
+                version = "1.0.6"
                 
                 from(components["release"])
 
@@ -68,14 +72,12 @@ afterEvaluate {
                     name.set("Mahimeta Ad SDK")
                     description.set("A lightweight Android SDK for displaying ads with dynamic configuration from Mahimeta dashboard")
                     url.set("https://github.com/syedtehrimabbas/MahimetaSDK")
-
                     licenses {
                         license {
                             name.set("Apache License 2.0")
                             url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
                         }
                     }
-
                     developers {
                         developer {
                             id.set("syedtehrimabbas")
@@ -83,7 +85,6 @@ afterEvaluate {
                             email.set("syedtehrimabbas@gmail.com")
                         }
                     }
-
                     scm {
                         connection.set("scm:git:github.com/syedtehrimabbas/MahimetaSDK.git")
                         developerConnection.set("scm:git:ssh://github.com/syedtehrimabbas/MahimetaSDK.git")
