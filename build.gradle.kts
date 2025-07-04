@@ -20,7 +20,7 @@ android {
         consumerProguardFiles("consumer-rules.pro")
 
         // Version information
-        buildConfigField("String", "SDK_VERSION", "\"1.0.9\"")
+        buildConfigField("String", "SDK_VERSION", "\"1.1.0\"")
     }
 
     buildTypes {
@@ -50,11 +50,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    
-    // Configure Kotlin options
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -102,7 +98,7 @@ afterEvaluate {
             create<MavenPublication>("maven") {
                 groupId = "com.github.syedtehrimabbas"
                 artifactId = "MahimetaSDK"
-                version = "1.0.9"
+                version = "1.1.0"
                 
                 // Include the AAR
                 artifact("$buildDir/outputs/aar/MahimetaSDK-release.aar") {
