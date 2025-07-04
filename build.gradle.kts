@@ -17,7 +17,7 @@ android {
         consumerProguardFiles("consumer-rules.pro")
 
         // Version information
-        buildConfigField("String", "SDK_VERSION", "\"1.0.6\"")
+        buildConfigField("String", "SDK_VERSION", "\"1.0.7\"")
     }
 
     buildTypes {
@@ -64,7 +64,7 @@ afterEvaluate {
             register<MavenPublication>("release") {
                 groupId = "com.github.syedtehrimabbas"
                 artifactId = "MahimetaSDK"
-                version = "1.0.6"
+                version = "1.0.7"
                 
                 from(components["release"])
 
