@@ -1,18 +1,8 @@
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("com.android.tools.build:gradle:8.0.2")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.21")
-    }
+plugins {
+    id("com.android.library") version "8.0.2"  // Explicit version
+    id("org.jetbrains.kotlin.android") version "1.8.21"
+    id("maven-publish")
 }
-
-apply(plugin = "com.android.library")
-apply(plugin = "org.jetbrains.kotlin.android")
-apply(plugin = "maven-publish")
-
 android {
     namespace = "com.mahimeta.sdk"
     compileSdk = 34
@@ -23,12 +13,12 @@ android {
         consumerProguardFiles("consumer-rules.pro")
 
         // Version information
-        buildConfigField("String", "SDK_VERSION", "\"1.0.0\"")
+        buildConfigField("String", "SDK_VERSION", "\"1.0.4\"")
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -70,7 +60,7 @@ afterEvaluate {
             create<MavenPublication>("release") {
                 groupId = "com.github.syedtehrimabbas"
                 artifactId = "MahimetaSDK"
-                version = "1.0.3"
+                version = "1.0.4"
                 
                 from(components["release"])
 

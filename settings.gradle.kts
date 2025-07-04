@@ -13,6 +13,4 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-
 rootProject.name = "MahimetaSDK"
-include(":")
