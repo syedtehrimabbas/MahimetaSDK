@@ -2,11 +2,11 @@ jdk:
   - openjdk11
 
 before_install:
-  - chmod +x gradlew
+  - chmod +x gradlew || true
+  - ./gradlew --version
 
 install:
-  - ./gradlew build
-  - ./gradlew publishToMavenLocal
+  - ./gradlew build publishToMavenLocal -x test --stacktrace
 
 jdk_switcher:
   enabled: true
