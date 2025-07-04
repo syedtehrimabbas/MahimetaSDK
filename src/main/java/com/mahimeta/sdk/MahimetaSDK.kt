@@ -70,7 +70,7 @@ object MahimetaSDK {
             
             scope.launch {
                 try {
-                    val response = adConfigClient.service.getAdConfig(publisherId)
+                    val response = adConfigClient.getAdConfig(publisherId)
                     if (response.success) {
                         _adConfig = AdConfig(
                             id = response.data.id,

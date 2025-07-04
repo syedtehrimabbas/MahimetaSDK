@@ -3,6 +3,9 @@ plugins {
     id("org.jetbrains.kotlin.android") version "1.9.22"
     id("maven-publish")
 }
+
+// Configuration to hold embedded dependencies
+val embedded = configurations.create("embedded")
 android {
     namespace = "com.mahimeta.sdk"
     compileSdk = 34
@@ -62,35 +65,75 @@ android {
 }
 
 dependencies {
-    api("androidx.core:core-ktx:1.16.0")
-    api("androidx.appcompat:appcompat:1.7.1")
-    api("com.google.android.material:material:1.12.0")
-    api("com.google.android.gms:play-services-ads:22.6.0")
-    api("androidx.lifecycle:lifecycle-runtime-ktx:2.9.1")
-    api("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.1")
+    // AndroidX dependencies
+    implementation("androidx.core:core-ktx:1.16.0")
+    implementation("androidx.appcompat:appcompat:1.7.1")
+    implementation("com.google.android.material:material:1.12.0")
+    implementation("com.google.android.gms:play-services-ads:22.6.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.1")
 
-    // Retrofit and Coroutines
-    api("com.squareup.retrofit2:retrofit:2.9.0")
-    api("com.squareup.retrofit2:converter-gson:2.9.0")
-    api("com.squareup.okhttp3:logging-interceptor:4.12.0")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    // GSON for JSON parsing
+    implementation("com.google.code.gson:gson:2.10.1")
+    
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    
+    // Add dependencies to embedded configuration
+    embedded("com.google.code.gson:gson:2.10.1")
+    embedded("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    embedded("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 }
 
+// Task to generate sources JAR
+tasks.register<Jar>("sourcesJar") {
+    archiveClassifier.set("sources")
+    from(android.sourceSets.getByName("main").java.srcDirs)
+}
+
 afterEvaluate {
     publishing {
         publications {
-            register<MavenPublication>("release") {
+            create<MavenPublication>("maven") {
                 groupId = "com.github.syedtehrimabbas"
                 artifactId = "MahimetaSDK"
-                version = "1.0.8"
+                version = "1.0.9"
                 
-                from(components["release"])
-
+                // Include the AAR
+                artifact("$buildDir/outputs/aar/MahimetaSDK-release.aar") {
+                    builtBy(tasks.getByName("bundleReleaseAar"))
+                }
+                
+                // Include sources
+                artifact(tasks["sourcesJar"])
+                
+                // Sources JAR is already included
+                
+                // Add dependencies to POM
+                pom.withXml {
+                    val dependenciesNode = asNode().appendNode("dependencies")
+                    
+                    // Add Gson
+                    val gsonNode = dependenciesNode.appendNode("dependency")
+                    gsonNode.appendNode("groupId", "com.google.code.gson")
+                    gsonNode.appendNode("artifactId", "gson")
+                    gsonNode.appendNode("version", "2.10.1")
+                    gsonNode.appendNode("scope", "runtime")
+                    
+                    // Add Coroutines
+                    val coroutinesNode = dependenciesNode.appendNode("dependency")
+                    coroutinesNode.appendNode("groupId", "org.jetbrains.kotlinx")
+                    coroutinesNode.appendNode("artifactId", "kotlinx-coroutines-android")
+                    coroutinesNode.appendNode("version", "1.7.3")
+                    coroutinesNode.appendNode("scope", "runtime")
+                }
+                
+                // Configure the POM
                 pom {
                     name.set("Mahimeta Ad SDK")
                     description.set("A lightweight Android SDK for displaying ads with dynamic configuration from Mahimeta dashboard")

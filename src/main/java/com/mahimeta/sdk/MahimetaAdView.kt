@@ -136,7 +136,7 @@ class MahimetaAdView @JvmOverloads constructor(
         scope.launch {
             try {
                 val publisherId = ManifestUtils.getPublisherId(context)
-                val response = MahimetaSDK.adConfigClient.service.getAdConfig(publisherId)
+                val response = MahimetaSDK.adConfigClient.getAdConfig(publisherId)
                 
                 if (response.success) {
                     // Set the ad unit ID and load the ad
