@@ -1,4 +1,3 @@
-
 # Mahimeta Ad SDK
 
 [![](https://jitpack.io/v/syedtehrimabbas/MahimetaSDK.svg)](https://jitpack.io/#syedtehrimabbas/MahimetaSDK)
