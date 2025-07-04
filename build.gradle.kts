@@ -50,7 +50,7 @@ android {
     
     // Configure Kotlin options
     kotlinOptions {
-        jvmTarget = "1.9"
+        jvmTarget = "1.8"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
